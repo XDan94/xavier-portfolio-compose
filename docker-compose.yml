@@ -1,0 +1,39 @@
+services:
+
+  postgres:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - portfolio-db:/var/lib/postgresql/data
+    networks:
+      - dokploy-network
+
+  api:
+    image: ghcr.io/TON_USERNAME/xavier-portfolio-backend:latest
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgres
+    networks:
+      - dokploy-network
+
+  front:
+    image: ghcr.io/TON_USERNAME/xavier-portfolio-frontend:latest
+    restart: unless-stopped
+    networks:
+      - dokploy-network
+
+volumes:
+  portfolio-db:
+
+networks:
+  dokploy-network:
+    external: true
