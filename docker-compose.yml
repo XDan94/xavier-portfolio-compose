@@ -13,7 +13,7 @@ services:
       - dokploy-network
 
   api:
-    image: ghcr.io/TON_USERNAME/xavier-portfolio-backend:latest
+    image: ghcr.io/XDan94/xavier-portfolio-backend:latest
     restart: unless-stopped
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
@@ -26,7 +26,7 @@ services:
       - dokploy-network
 
   front:
-    image: ghcr.io/TON_USERNAME/xavier-portfolio-frontend:latest
+    image: ghcr.io/XDan94/xavier-portfolio-frontend:latest
     restart: unless-stopped
     networks:
       - dokploy-network
